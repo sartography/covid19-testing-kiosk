@@ -12,12 +12,12 @@
     <mat-card-content fxLayout="row wrap" fxLayoutAlign="center center">
       <mat-form-field class="location-input" fxFlex="95%">
         <mat-label>Location ID #</mat-label>
-        <input
-          #locationIdInput="matInput"
-          matInput
-          type="text"
+        <mat-select
+          #locationIdSelect="matSelect"
           [formControl]="locationIdFormControl"
         >
+          <mat-option *ngFor="let loc of testingLocations">{{loc.name}}</mat-option>
+        </mat-select>
         <mat-error *ngIf="locationIdFormControl.hasError('required')">This field is required.</mat-error>
         <mat-error *ngIf="locationIdFormControl.hasError('pattern')">Please enter exactly 4 digits.</mat-error>
       </mat-form-field>

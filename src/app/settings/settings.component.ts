@@ -4,6 +4,8 @@ import {Router} from '@angular/router';
 import {labelLayouts} from '../config/defaults';
 import {AppDefaults} from '../models/appDefaults.interface';
 import {LabelLayout} from '../models/labelLayout.interface';
+import {TestingLocation} from '../models/testingLocation.interface';
+import {ApiService} from '../services/api.service';
 import {SettingsService} from '../services/settings.service';
 
 @Component({
@@ -17,12 +19,16 @@ export class SettingsComponent implements OnInit {
   labelLayoutFormControl: FormControl;
   locationIdFormControl: FormControl;
   labelLayouts: LabelLayout[];
+  testingLocations: TestingLocation[];
 
   constructor(
+    private api: ApiService,
     private router: Router,
     private settingsService: SettingsService
   ) {
     this.settings = this.settingsService.getSettings();
+    this.api.getLocations().subscribe(locs => this.testingLocations = locs);
+
     this.numCopiesFormControl = new FormControl(this.settings.numCopies, [
       Validators.required,
     ]);

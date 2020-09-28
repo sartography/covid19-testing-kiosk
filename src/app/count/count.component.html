@@ -6,7 +6,7 @@
 >
   <mat-card fxFlex="50%">
     <mat-card-header>
-      <h1>Update Occupancy Count</h1>
+      <h1 *ngIf="testingLocation">Update Occupancy Count for {{testingLocation.name}}</h1>
     </mat-card-header>
 
     <mat-card-content fxLayout="row wrap" fxLayoutAlign="center center">
@@ -20,8 +20,23 @@
           (keyup.enter)="save()"
         >
         <mat-error *ngIf="numPeopleFormControl.hasError('required')">This field is required.</mat-error>
-        <mat-error *ngIf="numPeopleFormControl.hasError('pattern')">Please enter a number greater than or equal to 0.</mat-error>
+        <mat-error *ngIf="numPeopleFormControl.hasError('min')">Please enter a number greater than or equal to 0.</mat-error>
+        <mat-error *ngIf="numPeopleFormControl.hasError('max')">Seriously, are there really that many people?</mat-error>
       </mat-form-field>
+      <mat-form-field class="line-count-input" fxFlex="95%">
+        <mat-label>Number of people without masks</mat-label>
+        <input
+          #numMaskViolationsInput="matInput"
+          matInput
+          type="number"
+          [formControl]="numMaskViolationsFormControl"
+          (keyup.enter)="save()"
+        >
+        <mat-error *ngIf="numMaskViolationsFormControl.hasError('required')">This field is required.</mat-error>
+        <mat-error *ngIf="numMaskViolationsFormControl.hasError('min')">Please enter a number greater than or equal to 0.</mat-error>
+        <mat-error *ngIf="numMaskViolationsFormControl.hasError('max')">Come on. Be realistic now.</mat-error>
+      </mat-form-field>
+      <mat-error *ngIf="hasInvalidValues">There can't be more people without masks than the total number of people.</mat-error>
     </mat-card-content>
     <mat-card-actions
       fxLayoutAlign="center center"

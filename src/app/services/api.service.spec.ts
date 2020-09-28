@@ -9,7 +9,6 @@ import {ApiService} from './api.service';
 
 describe('ApiService', () => {
   let httpMock: HttpTestingController;
-  let location: Location;
   let service: ApiService;
   const mockEnvironment = new MockEnvironment();
   const mockRouter = {
@@ -29,13 +28,11 @@ describe('ApiService', () => {
         {provide: 'APP_ENVIRONMENT', useValue: mockEnvironment},
         {provide: APP_BASE_HREF, useValue: '/'},
         {provide: Router, useValue: mockRouter},
-        {provide: Location, useValue: location},
       ]
     });
 
     httpMock = TestBed.inject(HttpTestingController);
     service = TestBed.inject(ApiService);
-    location = TestBed.inject(Location);
   });
 
   afterEach(() => {

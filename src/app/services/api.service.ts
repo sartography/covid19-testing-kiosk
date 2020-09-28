@@ -7,6 +7,7 @@ import {catchError} from 'rxjs/operators';
 import {ApiError} from '../models/apiError.interface';
 import {AppEnvironment} from '../models/appEnvironment.interface';
 import {Sample} from '../models/sample.interface';
+import {TestingLocation} from '../models/testingLocation.interface';
 
 
 @Injectable({
@@ -15,6 +16,8 @@ import {Sample} from '../models/sample.interface';
 export class ApiService {
   apiRoot: string;
   endpoints = {
+    locations: '/location',
+    location: '/location/{id}',
     sample: '/sample',
   };
 
@@ -26,10 +29,21 @@ export class ApiService {
     this.apiRoot = environment.api;
   }
 
-  /** Get the string value from a given URL */
-  getStringFromUrl(url: string): Observable<string> {
+  /** Get list of all testing locations */
+  getLocations(): Observable<TestingLocation[]> {
+    const url = this.apiRoot + this.endpoints.locations;
+
     return this.httpClient
-      .get(url, {responseType: 'text'})
+      .get<TestingLocation[]>(url)
+      .pipe(catchError(err => this._handleError(err)));
+  }
+
+  /** Get specific location */
+  getLocation(locationId: string): Observable<TestingLocation> {
+    const url = this.apiRoot + this.endpoints.location.replace('{id}', locationId);
+
+    return this.httpClient
+      .get<TestingLocation>(url)
       .pipe(catchError(err => this._handleError(err)));
   }
 
