@@ -16,7 +16,7 @@ export class CustomDatePipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'date' })
+// @Pipe({ name: 'date' })
 @Injectable()
 export class CustomDateAdapter extends NativeDateAdapter {
 
